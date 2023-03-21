@@ -9,9 +9,11 @@ namespace CompanyEmployee
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.ConfigureRepositoryManager();
-            builder.Services.AddControllers();
-    
+            builder.Services.ConfigureServices(builder.Configuration);
+            builder.Services.AddControllers()
+ .AddApplicationPart(typeof(Presentation.ReferencedAssembly).Assembly);
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

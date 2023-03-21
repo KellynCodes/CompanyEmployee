@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Repository.Context;
-using Repository;
 
 
 namespace CompanyEmployee.ContextFactory

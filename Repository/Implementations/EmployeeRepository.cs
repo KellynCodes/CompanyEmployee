@@ -1,15 +1,15 @@
-﻿using Contracts;
-using Entities.Models;
+﻿using Entities.Models;
 using Repository.Context;
+using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.Implementations
 {
-    public class EmployeeRepository : RepositoryBase<Company>, ICompanyRepository
+    public class EmployeeRepository : RepositoryBase<Company>, IEmployeeRepository
     {
         public EmployeeRepository(CompEmpDbContext repositoryContext)
         : base(repositoryContext)

@@ -1,6 +1,6 @@
 ﻿using Entities.Models;
 
-namespace Contracts
+namespace Repository.Interfaces
 {
     public interface ICompanyRepository
     {

@@ -1,12 +1,12 @@
-﻿using Contracts;
-using Repository.Context;
+﻿using Repository.Context;
+using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.Implementations
 {
     public sealed class RepositoryManager : IRepositoryManager
     {
@@ -16,10 +16,8 @@ namespace Repository
         public RepositoryManager(CompEmpDbContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
-            _companyRepository = new Lazy<ICompanyRepository>(() => new
-            CompanyRepository(repositoryContext));
-            _employeeRepository = new Lazy<IEmployeeRepository>(() => new
-            EmployeeRepository(repositoryContext));
+            _companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(repositoryContext));
+            _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext: repositoryContext));
         }
         public ICompanyRepository Company => _companyRepository.Value;
         public IEmployeeRepository Employee => _employeeRepository.Value;
