@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Repository.Interfaces;
 using Service;
-using Service.Contracts;
+using Service.Interfaces;
 using Services;
 
 namespace Services.Implementations
@@ -10,8 +10,7 @@ namespace Services.Implementations
     {
         private readonly Lazy<ICompanyService> _companyService;
         private readonly Lazy<IEmployeeService> _employeeService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager
-        logger, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
         {
             _companyService = new Lazy<ICompanyService>(() =>
             new CompanyService(repositoryManager, logger, mapper));
