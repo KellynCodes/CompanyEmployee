@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
@@ -17,7 +12,7 @@ namespace Entities.Models
         [MaxLength(60, ErrorMessage = "Maximum length for the Address is 60 characters")]
         public string? Address { get; set; }
         public string? Country { get; set; }
-        public ICollection<Employee>? Employees { get; set; }
+        public IEnumerable<Employee>? Employees { get; set; }
     }
    
 }

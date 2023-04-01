@@ -1,4 +1,7 @@
 using CompanyEmployee.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using Service;
 
 namespace CompanyEmployee
 {
@@ -10,15 +13,22 @@ namespace CompanyEmployee
 
             // Add services to the container.
             builder.Services.ConfigureServices(builder.Configuration);
-            builder.Services.AddControllers()
- .AddApplicationPart(typeof(Presentation.ReferencedAssembly).Assembly);
-
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            builder.Services.AddDefaultController();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            var logger = app.Services.GetRequiredService<ILoggerManager>();
+            app.ConfigureExceptionHandler(logger);
+            if (app.Environment.IsProduction())
+                app.UseHsts();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -28,6 +38,13 @@ namespace CompanyEmployee
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+            app.UseCors("CorsPolicy");
+
 
             app.UseAuthorization();
 
