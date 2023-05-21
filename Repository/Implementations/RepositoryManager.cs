@@ -1,10 +1,5 @@
 ﻿using Repository.Context;
 using Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Implementations
 {
@@ -21,6 +16,6 @@ namespace Repository.Implementations
         }
         public ICompanyRepository Company => _companyRepository.Value;
         public IEmployeeRepository Employee => _employeeRepository.Value;
-        public void Save() => _repositoryContext.SaveChanges();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

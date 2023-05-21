@@ -1,5 +1,10 @@
-﻿namespace Repository.Dtos
+﻿using System.Runtime.Serialization;
+
+namespace Repository.Dtos
 {
     [Serializable]
-    public record EmployeeForCreationDto(string Name, int Age, string Position);
+    public class EmployeeForCreationDto : EmployeeForManipulationDto
+    {
+
+    }
 }

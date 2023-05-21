@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Repository.Context;
 using Repository.Interfaces;
 using System.Linq.Expressions;
@@ -21,15 +20,16 @@ namespace Repository.Implementations
         CompEmpDbContext.Set<T>()
         .AsNoTracking() :
         CompEmpDbContext.Set<T>();
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,bool trackChanges) =>
-       !trackChanges ?
-        CompEmpDbContext.Set<T>()
-        .Where(expression)
-        .AsNoTracking() :
-        CompEmpDbContext.Set<T>()
-        .Where(expression);
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,bool trackChanges)
+        {
+
+            if (!trackChanges)
+                return CompEmpDbContext.Set<T>().Where(expression).AsNoTracking();
+
+           return CompEmpDbContext.Set<T>().Where(expression);
         
-        public IQueryable<T> GetAllAsync(bool tracking)
+        }
+        public IQueryable<T> GetAll(bool tracking)
         {
             if (tracking)
             {
@@ -39,7 +39,7 @@ namespace Repository.Implementations
 
         }
 
-        public void Create(T entity) => CompEmpDbContext.Set<T>().Add(entity);
+        public async Task CreateAsync(T entity) => await CompEmpDbContext.Set<T>().AddAsync(entity);
         public void Update(T entity) => CompEmpDbContext.Set<T>().Update(entity);
         public void Delete(T entity) => CompEmpDbContext.Set<T>().Remove(entity);
     }

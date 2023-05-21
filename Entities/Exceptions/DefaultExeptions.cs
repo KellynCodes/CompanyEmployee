@@ -51,4 +51,12 @@
         public CompanyCollectionBadRequest()
         : base("Company collection sent from a client is null.") { }
     }
+    public sealed class MaxAgeRangeBadRequestException : BadRequestException
+    {
+        public MaxAgeRangeBadRequestException()
+        : base("Max age can't be less than min age.")
+        {
+        }
+    }
+
 }

@@ -1,24 +1,33 @@
 ﻿using AutoMapper;
+using Entities.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Repository.Interfaces;
-using Service;
 using Service.Interfaces;
-using Services;
+using Service;
+using Services.Implementations;
+using Services.Interfaces;
 
-namespace Services.Implementations
+public sealed class ServiceManager : IServiceManager
 {
-    public sealed class ServiceManager : IServiceManager
+    private readonly Lazy<ICompanyService> _companyService;
+    private readonly Lazy<IEmployeeService> _employeeService;
+    private readonly Lazy<IAuthenticationService> _authenticationService;
+    public ServiceManager(IRepositoryManager repositoryManager,
+    ILoggerManager logger,
+    IMapper mapper, IEmployeeLinks employeeLinks,
+    UserManager<User> userManager,
+    IConfiguration configuration)
     {
-        private readonly Lazy<ICompanyService> _companyService;
-        private readonly Lazy<IEmployeeService> _employeeService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
-        {
-            _companyService = new Lazy<ICompanyService>(() =>
-            new CompanyService(repositoryManager, logger, mapper));
-            _employeeService = new Lazy<IEmployeeService>(() =>
-            new EmployeeService(repositoryManager, logger, mapper));
-        }
-        public ICompanyService CompanyService => _companyService.Value;
-        public IEmployeeService EmployeeService => _employeeService.Value;
+        _companyService = new Lazy<ICompanyService>(() =>
+        new CompanyService(repositoryManager, logger, mapper));
+        _employeeService = new Lazy<IEmployeeService>(() =>
+        new EmployeeService(repositoryManager, logger, mapper,
+        employeeLinks));
+        _authenticationService = new Lazy<IAuthenticationService>(() => 
+        new AuthenticationService(logger, mapper, userManager, configuration));
     }
-
+    public ICompanyService CompanyService => _companyService.Value;
+    public IEmployeeService EmployeeService => _employeeService.Value;
+    public IAuthenticationService AuthenticationService => _authenticationService.Value;
 }

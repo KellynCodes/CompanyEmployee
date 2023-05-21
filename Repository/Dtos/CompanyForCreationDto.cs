@@ -1,5 +1,20 @@
-﻿namespace Repository.Dtos
+﻿using System.Runtime.Serialization;
+
+namespace Repository.Dtos
 {
-    public record CompanyForCreationDto(string Name, string Address, string Country);
-    public record CreateCompanyWithEmployeesDto(string Name, string Address, string Country, IEnumerable<EmployeeForCreationDto> Employees);
+    [Serializable]
+    [DataContract]
+    public class CompanyForCreationDto
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+    }
+    public class CreateCompanyWithEmployeesDto
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public IEnumerable<EmployeeForCreationDto> Employees { get; set; }
+    }
 }

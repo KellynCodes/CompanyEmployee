@@ -4,13 +4,16 @@ using Repository.Dtos;
 namespace Service.Interfaces
 {
     public interface ICompanyService
-    {
-        CompanyDto GetCompany(Guid companyId, bool trackChanges);
-        IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-        IEnumerable<CompanyDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
-        (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
-        IEnumerable<Company> GetCompanyWithEmployee(bool trackChanges);
-        CompanyDto CreateCompany(CompanyForCreationDto company);
-        CompanyDto CreateCompanyWithEmployee(CreateCompanyWithEmployeesDto company);
-    }
+     {
+         Task<CompanyDto> GetCompanyAsync(Guid companyId, bool trackChanges);
+         Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges);
+         Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+         Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync(IEnumerable<CompanyForCreationDto> companyCollection);
+         Task<IEnumerable<Company>> GetCompanyWithEmployeeAsync(bool trackChanges);
+         Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company);
+         Task<CompanyDto> CreateCompanyWithEmployeeAsync(CreateCompanyWithEmployeesDto company);
+         Task DeleteCompanyAsync(Guid companyId, bool trackChanges);
+         Task UpdateCompanyAsync(Guid companyid, CompanyForUpdateDto companyForUpdate, bool trackChanges);
+     }
+
 }

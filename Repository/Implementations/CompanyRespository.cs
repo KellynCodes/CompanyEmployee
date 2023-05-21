@@ -8,22 +8,25 @@ namespace Repository.Implementations
     internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
     {
         public CompanyRepository(CompEmpDbContext repositoryContext)
-        : base(repositoryContext)
+      : base(repositoryContext)
+        { }
+            public async Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges)
         {
+             return  await FindAll(trackChanges).OrderBy(c => c.Name).ToListAsync();
         }
-        public IEnumerable<Company> GetAllCompanies(bool trackChanges) =>
-        FindAll(trackChanges)
-        .OrderBy(c => c.Name)
-        .ToList();
 
-        public IEnumerable<Company> GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
-FindByCondition(x => ids.Contains(x.Id), trackChanges)
-.ToList();
-
-        public Company GetCompany(Guid companyId, bool trackChanges) => FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefault();
-        public IEnumerable<Company> GetCompany(bool trackChanges)
+        public async Task<Company> GetCompanyAsync(Guid companyId, bool trackChanges)
         {
-            return GetAllAsync(trackChanges).Include(c => c.Employees)
+          return await FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefaultAsync();
+        }
+        public async Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+        {
+         return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Company>> GetCompanyAsync(bool trackChanges)
+        {
+            return GetAll(trackChanges).Include(c => c.Employees)
              .Select(c => new Company
              {
                  Id = c.Id,
@@ -41,7 +44,9 @@ FindByCondition(x => ids.Contains(x.Id), trackChanges)
              }).ToList();
         }
 
-        public void CreateCompany(Company company) => Create(company);
+        public async Task CreateCompanyAsync(Company company) => await CreateAsync(company);
+        public void DeleteCompany(Company company) => Delete(company);
+
 
     }
 }

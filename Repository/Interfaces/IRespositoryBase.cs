@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Repository.Interfaces
 {
@@ -7,8 +6,8 @@ namespace Repository.Interfaces
     {
         IQueryable<T> FindAll(bool trackChanges);
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
-        IQueryable<T> GetAllAsync(bool tracking);
-        void Create(T entity);
+        IQueryable<T> GetAll(bool tracking);
+        Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
     }

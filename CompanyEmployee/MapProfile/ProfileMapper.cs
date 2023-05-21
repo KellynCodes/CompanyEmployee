@@ -6,11 +6,11 @@ namespace CompanyEmployee.MapProfile
 {
     public class ProfileMapper : Profile
     {
-            public ProfileMapper()
-            {
-                CreateMap<Company, CompanyDto>()
-                .ForMember(c => c.FullAddress,
-                opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+        public ProfileMapper()
+        {
+            CreateMap<Company, CompanyDto>()
+            .ForMember(c => c.FullAddress,
+            opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
 
             CreateMap<Company, Company>();
             CreateMap<CompanyForCreationDto, Company>();
@@ -19,8 +19,9 @@ namespace CompanyEmployee.MapProfile
             CreateMap<Employee, EmployeeDto>();
             CreateMap<EmployeeForCreationDto, Employee>();
 
-            //CreateMap<UserForRegistrationDto, User>();
-
+            CreateMap<UserForRegistrationDto, User>();
+            CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
+            CreateMap<CompanyForUpdateDto, Company>();
         }
     }
 }

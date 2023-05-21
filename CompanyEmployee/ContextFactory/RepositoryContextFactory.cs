@@ -14,7 +14,7 @@ namespace CompanyEmployee.ContextFactory
             .AddJsonFile("appsettings.json")
             .Build();
             var builder = new DbContextOptionsBuilder<CompEmpDbContext>()
-   .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+   .UseSqlServer(configuration["ConnectionStrings:sqlConnection"],
    b => b.MigrationsAssembly("CompanyEmployee"));
             return new CompEmpDbContext(builder.Options);
 
